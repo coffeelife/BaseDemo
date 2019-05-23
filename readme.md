@@ -4,7 +4,7 @@
 
 Github地址：[https://github.com/coffeelife/BaseModuleDemo](https://github.com/coffeelife/BaseModuleDemo)(此处是copy的借鉴网址代码) 。
 
-本文章项目地址：[https://github.com/coffeelife/BaseModule](https://github.com/coffeelife/BaseModule)
+本文章项目地址：[https://github.com/coffeelife/BaseDemo](https://github.com/coffeelife/BaseDemo)
 
 本项目Github地址：
 
@@ -1132,7 +1132,7 @@ public abstract class CommonRecyclerAdapter<T> extends RecyclerView.Adapter<Comm
 
 Github地址：[https://github.com/coffeelife/BaseModuleDemo](https://github.com/coffeelife/BaseModuleDemo)(此处是copy的借鉴网址代码) 。
 
-本文章项目地址：[https://github.com/coffeelife/BaseModule](https://github.com/coffeelife/BaseModule)
+本文章项目地址：[https://github.com/coffeelife/BaseDemo](https://github.com/coffeelife/BaseDemo)
 
 
 
