@@ -1,0 +1,284 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf8">
+    <script language="javascript">
+            function setupWebViewJavascriptBridge(callback) {
+                if (window.WebViewJavascriptBridge) { return callback(WebViewJavascriptBridge); }
+                if (window.WVJBCallbacks) { return window.WVJBCallbacks.push(callback); }
+                window.WVJBCallbacks = [callback];
+                var WVJBIframe = document.createElement('iframe');
+                WVJBIframe.style.display = 'none';
+                WVJBIframe.src = 'wvjbscheme://__BRIDGE_LOADED__';
+                document.documentElement.appendChild(WVJBIframe);
+                setTimeout(function() { document.documentElement.removeChild(WVJBIframe) }, 0)
+            }
+
+            setupWebViewJavascriptBridge(function(bridge) {
+                 bridge.registerHandler('navRightButtonActionJSBridge', function(data, responseCallback) {
+                    alert('navRightButtonActionJSBridge方法被调用:'+data);
+                    responseCallback('js执行过了');
+                 })
+
+                 bridge.registerHandler('navCenterButtonActionJSBridge', function(data, responseCallback) {
+                                        alert('navCenterButtonActionJSBridge方法被调用:'+data);
+                                        responseCallback('js执行过了');
+                                        })
+            })
+            //js
+            function connectWebViewJavascriptBridge(callback) {
+                if (window.WebViewJavascriptBridge) {
+                    callback(WebViewJavascriptBridge)
+                } else {
+                    document.addEventListener(
+                        'WebViewJavascriptBridgeReady'
+                        , function() {
+                            callback(WebViewJavascriptBridge)
+                        },
+                        false
+                    );
+                }
+            }
+
+            connectWebViewJavascriptBridge(function(bridge) {
+                bridge.init(function(message, responseCallback) {
+                    console.log('JS got a message', message);
+                    var data = {
+                        'Javascript Responds': '测试中文!'
+                    };
+
+                    if (responseCallback) {
+                        console.log('JS responding with', data);
+                        responseCallback(data);
+                    }
+                });
+
+                bridge.registerHandler("navRightButtonActionJSBridge", function(data, responseCallback) {
+                    alert('navRightButtonActionJSBridge方法被调用:'+data);
+                                            responseCallback('js执行过了');
+                });
+
+                bridge.registerHandler("navCenterButtonActionJSBridge", function(data, responseCallback) {
+                                alert('navCenterButtonActionJSBridge方法被调用:'+data);
+                                                        responseCallback('js执行过了');
+                            });
+            })
+
+            //复制剪切板
+            function pasteboardClick() {
+                WebViewJavascriptBridge.callHandler('pasteboardJSBridge', {'pasteboardText': 'hello world'}, function(response) {
+                    alert('复制:' + response);
+                    document.getElementById("returnValue").value = response;
+                })
+            }
+
+            //打开新窗口
+            function openNewWindow () {
+                WebViewJavascriptBridge.callHandler('openNewWindowJSBridge', {'url': 'https://www.baidu.com/'}, function(response) {
+                                                      alert('opne window:' + response);
+                                                      document.getElementById("returnValue").value = response;
+                                                    })
+            }
+
+            //调用goback
+            function gobackClick() {
+                var params = {'message':'调用goback'};
+                WebViewJavascriptBridge.callHandler('gobackJSBridge',params,function(response) {
+                     alert(response);
+                    document.getElementById("returnValue").value = response;
+                 });
+            }
+
+            //返回上一页面
+            function popClick() {
+                WebViewJavascriptBridge.callHandler('controllerPopJSBridge',null,function(response) {
+                    alert(response);
+                    document.getElementById("returnValue").value = response;
+                });
+            }
+
+            //自定义标题
+            function titileBtnClick() {
+                var params = {'titleString':'hello world'};
+                WebViewJavascriptBridge.callHandler('getTitleJSBridge',params,function(response) {
+                                                    alert(response);
+                                                    document.getElementById("returnValue").value = response;
+                                                    });
+
+            }
+            //调用地图
+            function selectAddressJSBridge() {
+
+                WebViewJavascriptBridge.callHandler('selectAddressJSBridge','',function(response) {
+                    document.getElementById("returnValue").value = response;
+                });
+            }
+            //调用相册
+            function H5EditPictureJSBridge() {
+
+                WebViewJavascriptBridge.callHandler('H5EditPictureJSBridge','',function(response) {
+                    document.getElementById("returnValue").value = response;
+                });
+            }
+             //调用相册
+            function openPhotoAlbumClick() {
+                var params = {"imageCount":"4"};
+                WebViewJavascriptBridge.callHandler('getImagesJSBridge',params,function(response) {
+                    document.getElementById("returnValue").value = response;
+                });
+            }
+            //调用地图
+            function selectOrg() {
+
+                WebViewJavascriptBridge.callHandler('selectOrgBridge','{"selectOrgType":2}',function(response) {
+                    document.getElementById("returnValue").value = response;
+                });
+            }
+
+            //提出登录
+            function loginoutClick() {
+                var params = {"message":"退出登录"};
+                WebViewJavascriptBridge.callHandler('loginoutJSBridge',params,function(response) {
+                                                    document.getElementById("returnValue").value = response;
+                                                    });
+            }
+            //提出登录
+            function qrcodeClick() {
+                var params = {"message":"二维码"};
+                WebViewJavascriptBridge.callHandler('QRCodeJSBridge',params,function(response) {
+                                                    document.getElementById("returnValue").value = response;
+                                                    });
+            }
+            function rightButtonClick() {
+                var params = {"navRightButtonTitle":"保存"};
+                WebViewJavascriptBridge.callHandler('navRightButtonJSBridge',params,function(response) {
+                                                    document.getElementById("returnValue").value = response;
+                                                      console.log('save action');
+                                                        //alert('JS方法被调用:');
+                                                    });
+            }
+
+            function rightButtonHidenClick() {
+               // alert('rightButtonHidenClick');
+                var params = {"message":"rightButtonHidenClick"};
+                WebViewJavascriptBridge.callHandler('navRightButtonHidenJSBridge',params,function(response) {
+                                                    document.getElementById("returnValue").value = response;
+                                                    console.log('save action');
+                                                    //alert('JS方法被调用:');
+                                                    });
+            }
+
+            function centerButtonClick() {
+                // alert('rightButtonHidenClick');
+                var params = {"navCenterButtonTitle":"花儿大药房"};
+                WebViewJavascriptBridge.callHandler('navCenterButtonJSBridge',params,function(response) {
+                                                    document.getElementById("returnValue").value = response;
+                                                    console.log('save action');
+                                                    //alert('JS方法被调用:');
+                                                    });
+            }
+
+            function centerButtonHidenClick() {
+                // alert('rightButtonHidenClick');
+                var params = {"navCenterButtonHidenJSBridge":"hiden"};
+                WebViewJavascriptBridge.callHandler('navCenterButtonHidenJSBridge',params,function(response) {
+                                                    document.getElementById("returnValue").value = response;
+                                                    console.log('save action');
+                                                    //alert('JS方法被调用:');
+                                                    });
+            }
+            function pushNative() {
+               var params = {"NativeRoute":"gjhealth://cstore/member/memberQRCodeCard"};
+                WebViewJavascriptBridge.callHandler('H5PushNativeRoute',params,function(response) {
+                                                    document.getElementById("returnValue").value = response;
+                                                    console.log('save action');
+                                                    //alert('JS方法被调用:');
+                                                    });
+            }
+            function shareWeChatClick() {
+               var params = {"title":"android 分享组件",
+                              "description":"高济医疗官网",
+                              "webpageUrl":"http://www.gaojihealth.com",
+                              "thumbImageURL":"https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3706507586,466188827&fm=26&gp=0.jpg"
+
+                };
+                WebViewJavascriptBridge.callHandler('shareJSBridge',params,function(response) {
+                                                    document.getElementById("returnValue").value = response;
+                                                    console.log('save action');
+                                                    //alert('JS方法被调用:');
+                                                    });
+            }
+            function saveImageClick() {
+                             var params = "iVBORw0KGgoAAAANSUhEUgAAAA0AAAANCAYAAABy6+R8AAAAAXNSR0IArs4c6QAAAZpJREFUKBVtUj1LA0EQfXO3ifGz0EhQg4WgYvADq1SaIHbBQhD/gFhYiQhBiIKFNoJYiWBjH1sLC4nRRtRCBCMqioUgfqXwg6AmuXX2NOtFXLi9dzvvzZuZW4Jj9e+sdOcsGSUpewHyAvJJEu0Kgxa2QmNHBSopMLu9LZI4izEpBildhaB+E2U5yXxtuGZunYbzhgrYAmnNushw+TyVmquBSsTxx2R6Wp3RT0n7ymHI34n0ZwYD9QHcZJ61ptpdipmTTWZTlksNCtWDEnhMgQiTRw/jCNY0YuliR4um2vq+MfNyFqJCNS35aMjfhfd8Fjlpodx0Y7I1jEpRgtfcB+fUeii+YE8fDwAuw9QlxW+OkXq+g3JYPE/+KmxEXkNCmgqvXR/w/p1y0N8Bi3EFO020hOzH5tubfGKn4uVmx0CVDyWGwBuX5uxNMdV/s0fulEXqAli92sNIUxBlwu0MFaa3UOSU4UEop8TDJVIv9xhsaMd4cw9Mw8DG7Sku3tLz6mZQOLHsmE1xYv3150YUOWkSAwLluYP7/+7eF2IkngPW/sUBAAAAAElFTkSuQmCC";
+                WebViewJavascriptBridge.callHandler('saveImageJSBridge',params,function(response) {
+                                                    document.getElementById("returnValue").value = response;
+                                                    });
+            }
+            function shareImageClick() {
+                             var params = "iVBORw0KGgoAAAANSUhEUgAAAA0AAAANCAYAAABy6+R8AAAAAXNSR0IArs4c6QAAAZpJREFUKBVtUj1LA0EQfXO3ifGz0EhQg4WgYvADq1SaIHbBQhD/gFhYiQhBiIKFNoJYiWBjH1sLC4nRRtRCBCMqioUgfqXwg6AmuXX2NOtFXLi9dzvvzZuZW4Jj9e+sdOcsGSUpewHyAvJJEu0Kgxa2QmNHBSopMLu9LZI4izEpBildhaB+E2U5yXxtuGZunYbzhgrYAmnNushw+TyVmquBSsTxx2R6Wp3RT0n7ymHI34n0ZwYD9QHcZJ61ptpdipmTTWZTlksNCtWDEnhMgQiTRw/jCNY0YuliR4um2vq+MfNyFqJCNS35aMjfhfd8Fjlpodx0Y7I1jEpRgtfcB+fUeii+YE8fDwAuw9QlxW+OkXq+g3JYPE/+KmxEXkNCmgqvXR/w/p1y0N8Bi3EFO020hOzH5tubfGKn4uVmx0CVDyWGwBuX5uxNMdV/s0fulEXqAli92sNIUxBlwu0MFaa3UOSU4UEop8TDJVIv9xhsaMd4cw9Mw8DG7Sku3tLz6mZQOLHsmE1xYv3150YUOWkSAwLluYP7/+7eF2IkngPW/sUBAAAAAElFTkSuQmCC";
+                WebViewJavascriptBridge.callHandler('shareImageJSBridge',params,function(response) {
+                                                    document.getElementById("returnValue").value = response;
+                                                    });
+            }
+
+            function asyncAlert(content) {
+                setTimeout(function(){
+                           alert(content);
+                           },1);
+            }
+
+            function previewImageButton() {
+                var params = {"previewImageSelectIndex":"0",
+                               "previewImagesArray":[
+                                                       "https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1551943226&di=53c97384030cf37d32444c7106677285&src=http://img18.3lian.com/d/file/201709/21/a05161a4469dc5ef8be88ee217d53d92.jpg",
+                                                       "https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2023171677,3015047955&fm=11&gp=0.jpg",
+                                                       "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1551953345366&di=1bf927c5116cbb8c2ad74e8ce8a51bd9&imgtype=0&src=http%3A%2F%2Fpic1.win4000.com%2Fmobile%2F2019-02-21%2F5c6e166bf21bc.jpg"]
+                             };
+                 WebViewJavascriptBridge.callHandler('previewImageJSBridge',params,function(response){
+                    document.getElementById("returnValue").value = response;
+                                                    console.log('save action');
+                                                    //alert('JS方法被调用:');
+                 });
+
+
+            }
+            function openNewDocWindow () {
+                WebViewJavascriptBridge.callHandler('openNewWindowJSBridge', {'url': 'https://gjhealth.github.io/2019/04/01/%E9%AB%98%E6%B5%8E%20JSBridge%20%E5%BC%80%E5%8F%91%E6%96%87%E6%A1%A3/'}, function(response) {
+                                                    alert('opne window:' + response);
+                                                    document.getElementById("returnValue").value = response;
+                                                    })
+            }
+
+
+    </script>
+</head>
+
+<body>
+<h2>jsbridge 功能测试</h2>
+<input id='scanBtn' type="button" value="复制剪切板" onclick="pasteboardClick()"/>
+<input id='openWindow' type="button" value="打开新的web容器" onclick="openNewWindow()"/>
+<input id='popBtn' type="button" value="返回Native上一页" onclick="popClick()"/>
+<input id='titileBtn' type="button" value="自定义标题" onclick="titileBtnClick()"/>
+<input id='openPhotoAlbum' type="button" value="打开相册" onclick="openPhotoAlbumClick()"/>
+<input id='selectAddressJSBridge' type="button" value="打开地图" onclick="selectAddressJSBridge()"/>
+<input id='H5EditPictureJSBridge' type="button" value="相机按钮" onclick="H5EditPictureJSBridge()"/>
+<input id='goback' type="button" value="调用webgoback" onclick="gobackClick()"/>
+<input id='loginout' type="button" value="退出登录" onclick="loginoutClick()"/>
+<input id='qrcode' type="button" value="扫一扫" onclick="qrcodeClick()"/>
+<input id='rightButton' type="button" value="导航右边按钮" onclick="rightButtonClick()"/>
+<input id='rightHidenButton' type="button" value="隐藏导航右边按钮" onclick="rightButtonHidenClick()"/>
+<input id='centerButton' type="button" value="导航中间按钮" onclick="centerButtonClick()"/>
+<input id='centerButtonHiden' type="button" value="导航中间按钮隐藏" onclick="centerButtonHidenClick()"/>
+<input id='route' type="button" value="H5跳转到原生模块" onclick="pushNative()"/>
+<input id = 'previewImage' type="button" value="预览图片" onclick="previewImageButton()" />
+<input id='share' type="button" value="微信分享" onclick="shareWeChatClick()"/>
+<input id='saveImage' type="button" value="保存图片" onclick="saveImageClick()"/>
+<input id='shareImage' type="button" value="分享图片" onclick="shareImageClick()"/>
+<input id='selectOrg' type="button" value="选择组织" onclick="selectOrg()"/>
+
+<h3>建议PC 访问 https://gjhealth.github.io 查看 高济 JSBridge 开发文档</h3>
+<input id = 'openDocWindow' type="button" value="手机查看文档" onclick="openNewDocWindow()" />
+
+
+
+</body>
+</html>

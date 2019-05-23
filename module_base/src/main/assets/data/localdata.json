@@ -1,0 +1,70 @@
+{
+  "body": {
+    "group": [
+      [
+        {
+          "cellContent": "赵坤",
+          "cellContentUnit": "",
+          "cellTitle": "姓名",
+          "cellKeyboardType": 0,
+          "cellType": "cellTypeSelect",
+          "cellRequired": true,
+          "identifierfield": "name",
+          "cellStyle": {
+            "cellTitleColor": "#333333",
+            "cellContentColor": "#666666",
+            "cellTitleFontSize": 16,
+            "cellContentFontSize": 16,
+            "cellHeight": 50,
+            "textLimit": 50
+          },
+          "cellRoute": {
+            "url": "gjhealth://cstore/jsonForm/LongText"
+          }
+        },
+        {
+          "cellContent": "",
+          "cellContentUnit": "岁",
+          "cellTitle": "年龄",
+          "cellKeyboardType": 1,
+          "cellType": "cellTypeSelect",
+          "cellRequired": false,
+          "identifierfield": "name",
+          "cellStyle": {
+            "cellTitleColor": "#333333",
+            "cellContentColor": "#666666",
+            "cellTitleFontSize": 16,
+            "cellContentFontSize": 16,
+            "cellHeight": 50,
+            "textLimit": 50
+          },
+          "cellRoute": {
+            "url": "gjhealth://cstore/jsonForm/LongText"
+          }
+        }
+      ],
+      [
+        {
+          "cellContent": "allen",
+          "cellContentUnit": "",
+          "cellTitle": "地址",
+          "cellKeyboardType": 0,
+          "cellType": "ShortText",
+          "cellRequired": false,
+          "identifierfield": "name",
+          "cellStyle": {
+            "cellTitleColor": "#333333",
+            "cellContentColor": "#666666",
+            "cellTitleFontSize": 16,
+            "cellContentFontSize": 16,
+            "cellHeight": 50,
+            "textLimit": 50
+          },
+          "cellRoute": {
+            "url": "gjhealth://cstore/jsonForm/LongText"
+          }
+        }
+      ]
+    ]
+  }
+}
